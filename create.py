@@ -24,7 +24,6 @@ import serial
 import math
 import time
 import datetime
-import calendar
 import thread
 import threading
 
