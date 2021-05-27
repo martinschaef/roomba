@@ -23,6 +23,7 @@
 import serial
 import math
 import time
+import datetime
 import thread
 import threading
 
@@ -44,6 +45,7 @@ LEDS = chr(139)     # + 3 bytes
 SONG = chr(140)     # + 2N+2 bytes, where N is the number of notes
 PLAY = chr(141)     # + 1 byte
 SENSORS = chr(142)  # + 1 byte
+CHANGE_TIME = chr(168)
 FORCESEEKINGDOCK = chr(143)  # same on Roomba and Create
 # the above command is called "Cover and Dock" on the Create
 DRIVEDIRECT = chr(145)       # Create only
@@ -1545,3 +1547,21 @@ class Create:
         """
         while (not comparison(sensorFunc(), value)):
             time.sleep(0.05)
+    
+    
+
+    # Some new stuff added by PaperPieceCode
+    
+    #Change Time of Roomba internal Clock to System-Time over Serial Port
+    def change_Time():
+        self.write(START)
+        self.write(CHANGE_TIME)
+        weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        i = 0
+        now = datetime.datetime.now()
+        for day in weekdays:
+            if datetime.datetime.today().strftime('%A') == day: daycode = chr(i)
+            i += 1
+        self.write(daycode)
+        self.write(chr(now.hour))
+        self.write(chr(now.minute))
