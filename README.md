@@ -1,5 +1,5 @@
 # Python Roomba
-Python 2.7 scripts to control the Roomba via serial cable. This work is based on the script from [this](http://cs.gmu.edu/~zduric/cs101/pmwiki.php/Main/APITutorial) course. I adjusted it a bit to get access to the light bump in the Create 2 and my Roomba 770.
+Python 2.7 scripts to control the Roomba via serial cable. This work is based on the script from [this](http://web.archive.org/web/20160827153405/http://cs.gmu.edu/~zduric/cs101/pmwiki.php/Main/APITutorial) course. I adjusted it a bit to get access to the light bump in the Create 2 and my Roomba 770.
 
 ### Dependencies
 You need pyserial to run this script.
@@ -37,7 +37,7 @@ The main class is create.py which contains everything to talk to the Roomba. To 
     time.sleep(2.0)
     robot.close()
 
-For more information read the original [tutorial](http://cs.gmu.edu/~zduric/cs101/pmwiki.php/Main/APITutorial). The list of all available sensors is [here](https://github.com/martinschaef/roomba/blob/master/create.py#L70).
+For more information read the original [tutorial](http://web.archive.org/web/20160827153405/http://cs.gmu.edu/~zduric/cs101/pmwiki.php/Main/APITutorial). The list of all available sensors is [here](https://github.com/martinschaef/roomba/blob/master/create.py#L70).
 
 ### My setup
 
