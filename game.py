@@ -68,6 +68,9 @@ def main():
 
 	robot_dir = 0
 	robot_rot = 0
+	side_brush = 0
+	main_brush = 0
+	vacuum = 0
 
 	robot.resetPose()
 	px, py, th = robot.getPose()
@@ -93,7 +96,7 @@ def main():
 					update_roomba = True
 				if event.key == pygame.K_ESCAPE:
 					pygame.quit()
-					return					
+					return
 				if event.key == pygame.K_SPACE:
 					robot.resetPose()
 					px, py, th = robot.getPose()
@@ -113,6 +116,23 @@ def main():
 					ROT_SPEED -= MAX_ROTATION*SPEED_INC/100
 					if ROT_SPEED<0:
 						ROT_SPEED = 0
+				if event.key == pygame.K_m:
+					update_roomba = True
+					if (pygame.key.get_mods() & pygame.KMOD_SHIFT) :
+						main_brush = 1
+					else:
+						main_brush = -1
+					
+				if event.key == pygame.K_v:
+					vacuum = 1
+					update_roomba = True
+					
+				if event.key == pygame.K_o:
+					if (pygame.key.get_mods() & pygame.KMOD_SHIFT):
+						side_brush = 1
+					else:
+						side_brush = -1
+					update_roomba = True
 			if event.type == pygame.KEYUP:
 				if event.key == pygame.K_w or event.key == pygame.K_s:
 					robot_dir=0
@@ -120,10 +140,20 @@ def main():
 				if event.key == pygame.K_a or event.key == pygame.K_d:
 					robot_rot=0
 					update_roomba = True
+				if event.key == pygame.K_m:
+					main_brush = 0
+					update_roomba = True
+				if event.key == pygame.K_o:
+					side_brush = 0
+					update_roomba = True
+				if event.key == pygame.K_v:
+					vacuum = 0
+					update_roomba = True
 
 		if update_roomba == True:
 			#robot.sensors([create.POSE])		
-			robot.go(robot_dir*FWD_SPEED,robot_rot*ROT_SPEED)		
+			robot.go(robot_dir*FWD_SPEED,robot_rot*ROT_SPEED)
+			robot.motors(side_brush, main_brush, vacuum)
 			time.sleep(0.1)
 
 		# done with the actual roomba stuff
@@ -162,7 +192,8 @@ def main():
 		screen.blit(font.render("  Estimated Rotation: {:03.2f} (in degree)".format(th), 1, (10, 10, 10)), (450, 490))
 		screen.blit(font.render("       Dirt Detected: {}".format(senses[create.DIRT_DETECTED]), 1, (10, 10, 10)), (450, 510))	
 
-		screen.blit(font.render("Move Roomba with w/a/s/d, adjust speed with UP/DOWN, reset pos with SPACE, and ESC to quit.", 1, (10, 10, 10)), (10, 570))
+		screen.blit(font.render("Move Roomba with w/a/s/d, adjust speed with UP/DOWN, reset pos with SPACE, and ESC to quit.", 1, (10, 10, 10)), (10, 560))
+		screen.blit(font.render("o activates the sidebrush, m the main, v the vacuum. Holding shift could be used for reversing the the direction of the brushes.", 1, (10, 10, 10)), (10, 575))
 
 		pygame.display.flip()
 		
