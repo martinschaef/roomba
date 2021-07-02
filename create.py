@@ -702,6 +702,30 @@ class Create:
         self.go(0,0)
         # we've gotta update pose information
         foo = self.sensors([POSE])
+        
+    def motors ( self, side_brush = 0, main_brush = 0, vacuum = 0):
+        if (side_brush > 1):
+            side_brush = 1
+        elif (side_brush < -1):
+            side_brush = -1
+        
+        if (main_brush > 1):
+            main_brush = 1
+        elif (main_brush < -1):
+            main_brush = -1
+
+        if (vacuum > 1):
+            vacuum = 1
+        elif (vacuum < 0):
+            vacuum = 0
+            
+        byteToWrite = chr((16 if main_brush < 0  else 0) | 
+                     (8  if side_brush < 0  else 0) |
+                     (4  if main_brush != 0 else 0) |
+                     (2  if vacuum != 0     else 0) |
+                     (1  if side_brush > 0  else 0))
+        self._write( MOTORS )
+        self._write( byteToWrite)
     
     def go( self, cm_per_sec=0, deg_per_sec=0 ):
         """ go(cmpsec, degpsec) sets the robot's velocity to
